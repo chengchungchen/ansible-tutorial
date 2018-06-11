@@ -1,0 +1,11 @@
+- name: Check variables
+  hosts: localhost
+  vars:
+    my_var: hogehoge
+    admin_user:
+      name: taro
+      uid: 1001
+  tasks:
+    - name: debug my_var
+      debug:
+        msg: "my_var: {{ my_var }}, User: {{ admin_user.name }}, UID: {{ admin_user.uid }}"

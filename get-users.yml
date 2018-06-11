@@ -1,0 +1,20 @@
+- name: get user from /etc/passwd
+  hosts: all
+  tasks:
+    - name: get user from /etc/passwd
+      command: cut --delimiter=':' --field=1 /etc/passwd
+      register: usernames_result
+      changed_when: false
+
+    - name: display usernames_result by debug mode
+      debug:
+        var: usernames_result 
+
+    - name: display result from command line
+      set_fact:
+        username_list: "{{ usernames_result.stdout_lines }}" 
+
+    - name: show result if have user vagrant
+      debug:
+        msg: This mechine have user vagrant 
+      when: "'Vagrant' in username_list"

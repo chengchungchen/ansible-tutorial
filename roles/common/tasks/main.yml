@@ -1,0 +1,40 @@
+---
+# tasks file for common
+- name: Install Ansible to SELinux
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - libselinux-python
+    - policycoreutils-python
+
+- name: SELinux permissive
+  selinux:
+    policy: targeted
+    state: permissive
+#  register: common_make_selinux_permissive
+
+#- name: Print common_make_selinux_permissive
+#  debug:
+#    msg: "{{ common_make_selinux_permissive }}"
+
+#- block:
+#    - name: Reboot OS if SELinux have changed
+#      shell: sleep 2 && shutdown -r now "Ansible reboot"
+#      async: 1
+#      poll: 0
+#      changed_when: true
+
+#    - name: Wait for until OS reboot
+#      local_action: wait_for
+#      args:
+#        host: "{{ ansible_host|default(inventory_hostname) }}"
+#        port: "{{ ansible_ssh_port|default(22) }}"
+#        state: started
+#        search_regex: OpenSSH
+#        delay: 30
+#        timeout: 600
+#      become: false
+
+#  when: common_make_selinux_permissive|changed and 'state change will take effect next reboot' in common_make_selinux_permissive.msg
+#  when: common_make_selinux_permissive is changed and 'state change will take effect next reboot' in common_make_selinux_permissive.msg
+#  when: "'true' in common_make_selinux_permissive.reboot_required"
